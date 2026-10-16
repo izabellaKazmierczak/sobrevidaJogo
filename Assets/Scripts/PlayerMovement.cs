@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        velocidade = PlayerPrefs.GetFloat("VelocidadeInicial", 1.5f);
+
         historicoPosicoes.Add(transform.position);
     }
 
