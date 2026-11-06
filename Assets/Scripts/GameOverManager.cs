@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+
 public class GameOverManager : MonoBehaviour
 {
     public GameObject painelGameOver;
@@ -18,6 +19,11 @@ public class GameOverManager : MonoBehaviour
             painelGameOver.SetActive(false);
     }
 
+    public void VoltarAoInicio()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("MenuInicial");
+    }
     public void GameOver()
     {
         if (terminou)

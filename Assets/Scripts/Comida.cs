@@ -1,6 +1,7 @@
 
 using UnityEngine;
 
+
 public class Comida : MonoBehaviour
 {
     public bool comidaLenta = false;
