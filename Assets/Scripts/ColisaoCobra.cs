@@ -35,7 +35,8 @@ public class ColisaoCobra : MonoBehaviour
         if (colisao.gameObject.CompareTag("Player"))
         {
             if (gameOverManager != null)
-                gameOverManager.GameOver();
+                Debug.Log("GAME OVER: colisão com o corpo!");
+            gameOverManager.GameOver();
         }
     }
 }

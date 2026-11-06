@@ -8,9 +8,13 @@ public class PlayerMovement : MonoBehaviour
     public float velocidade = 1.5f;
     public float aumentoVelocidade = 0.05f;
 
+
+
+
+
     [Header("Crescimento da cobra")]
     public GameObject prefabCorpo;
-    public float distanciaEntrePartes = 0.8f;
+    public float distanciaEntrePartes = 1.5f;
 
     private Vector2 direcao = Vector2.right;
     private Vector2 proximaDirecao = Vector2.right;
@@ -18,7 +22,11 @@ public class PlayerMovement : MonoBehaviour
     private readonly List<Transform> partesCorpo = new List<Transform>();
     private readonly List<Vector3> historicoPosicoes = new List<Vector3>();
 
+    private readonly List<bool> colisaoAtivada = new List<bool>();
+
     private bool jogoEncerrado = false;
+
+
 
     void Start()
     {
@@ -129,6 +137,37 @@ public class PlayerMovement : MonoBehaviour
                 historicoPosicoes.Count - ultimoIndice - 1
             );
         }
+
+        // Verifica colisão com o corpo, ignorando a primeira parte.
+        for (int i = 1; i < partesCorpo.Count; i++)
+        {
+            if (partesCorpo[i] == null)
+                continue;
+
+            float distancia = Vector2.Distance(
+                transform.position,
+                partesCorpo[i].position
+            );
+
+            if (!colisaoAtivada[i])
+            {
+                if (distancia >= 1.0f)
+                    colisaoAtivada[i] = true;
+
+                continue;
+            }
+
+            if (distancia < 0.5f)
+            {
+                GameOverManager gameOver =
+                    FindFirstObjectByType<GameOverManager>();
+
+                if (gameOver != null)
+                    gameOver.GameOver();
+
+                return;
+            }
+        }
     }
 
 
@@ -157,6 +196,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         partesCorpo.Add(novaParte.transform);
+
+        colisaoAtivada.Add(false);
 
         Debug.Log("Parte do corpo criada!");
     }

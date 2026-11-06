@@ -7,8 +7,11 @@ public class FoodSpawner : MonoBehaviour
     public GameObject foodPrefab;
     public GameObject comidaLentaPrefab;
 
-    public float limiteX = 4f;
-    public float limiteY = 4f;
+    // Limites internos da arena
+    public float limiteXMin = -3.3f;
+    public float limiteXMax = 3.3f;
+    public float limiteYMin = -4.5f;
+    public float limiteYMax = 2.1f;
 
     public int comidasParaFase2 = 10;
 
@@ -72,8 +75,8 @@ public class FoodSpawner : MonoBehaviour
 
     Vector3 NovaPosicao()
     {
-        float x = Random.Range(-limiteX, limiteX);
-        float y = Random.Range(-limiteY, limiteY);
+        float x = Random.Range(limiteXMin, limiteXMax);
+        float y = Random.Range(limiteYMin, limiteYMax);
 
         return new Vector3(
             Mathf.Round(x),
@@ -82,4 +85,3 @@ public class FoodSpawner : MonoBehaviour
         );
     }
 }
-
