@@ -1,8 +1,8 @@
 
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-
 
 public class GameOverManager : MonoBehaviour
 {
@@ -24,6 +24,7 @@ public class GameOverManager : MonoBehaviour
         Time.timeScale = 1f;
         SceneManager.LoadScene("MenuInicial");
     }
+
     public void GameOver()
     {
         if (terminou)
@@ -31,11 +32,13 @@ public class GameOverManager : MonoBehaviour
 
         terminou = true;
 
+        // Para a cobra na posição da colisão
         PlayerMovement player = FindFirstObjectByType<PlayerMovement>();
 
         if (player != null)
             player.PararCobra();
 
+        // Guarda a pontuação final
         int pontos = 0;
 
         if (Pontuacao.Instancia != null)
@@ -44,10 +47,25 @@ public class GameOverManager : MonoBehaviour
         if (textoPontuacaoFinal != null)
             textoPontuacaoFinal.text = "Pontuação final: " + pontos;
 
+        // Toca o som de derrota
+        if (AudioManager.Instancia != null)
+            AudioManager.Instancia.TocarSomDerrota();
+
+        // Inicia a pausa de 4 segundos
+        StartCoroutine(MostrarGameOverDepoisDaPausa());
+    }
+
+    IEnumerator MostrarGameOverDepoisDaPausa()
+    {
+        // Congela o jogo, mantendo a cobra na posição da morte
+        Time.timeScale = 0f;
+
+        // Espera 4 segundos em tempo real
+        yield return new WaitForSecondsRealtime(3f);
+
+        // Mostra o painel de Game Over
         if (painelGameOver != null)
             painelGameOver.SetActive(true);
-
-        Time.timeScale = 0f;
     }
 
     public void ReiniciarJogo()

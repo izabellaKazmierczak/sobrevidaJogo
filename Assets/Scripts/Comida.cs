@@ -19,6 +19,7 @@ public class Comida : MonoBehaviour
             return;
 
         foiComida = true;
+        AudioManager.Instancia.TocarSomComer();
 
         FoodSpawner spawner = FindFirstObjectByType<FoodSpawner>();
 
